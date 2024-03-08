@@ -9,7 +9,7 @@ public class GravityManip : Manipulation
 
     }
 
-    public override void Manipulate(GameObject obj)
+    public override void Manipulate(Manipulatable obj)
     {
         if (this.nested != null)
         {

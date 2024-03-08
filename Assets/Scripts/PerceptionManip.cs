@@ -4,19 +4,28 @@ using UnityEngine;
 
 public class PerceptionManip : Manipulation 
 {
-    public PerceptionManip(Manipulation nested = null) : base(nested)
+    public enum State { VISIBLE, INVISIBLE };
+    protected State state;
+    
+    public PerceptionManip(Manipulation nested, Manipulatable obj) : base(nested)
     {
-
+        this.state = GameState.PerceptionState;
+        obj.Perception(this.state);
     }
 
-    public override void Manipulate(GameObject obj)
+    public override void Manipulate(Manipulatable obj)
     {
         if (this.nested != null)
         {
             this.nested.Manipulate(obj);
-        }   
+        }
 
         // Implement Perception Manip Here
-
+        PerceptionManip.State gameState = GameState.PerceptionState;
+        if (gameState != this.state)
+        {
+            this.state = gameState;
+            obj.Perception(this.state);
+        }
     }
 }

@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manipulatable : MonoBehaviour
+public abstract class Manipulatable : MonoBehaviour
 {
     [SerializeField] protected bool affectedByGravity;
     [SerializeField] protected bool affectedBySize;
     [SerializeField] protected bool affectedByPerception;
     protected Manipulation manip = null;
 
-    // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         if (affectedByGravity)
         {
@@ -22,13 +21,30 @@ public class Manipulatable : MonoBehaviour
         }
         if (this.affectedByPerception)
         {
-            this.manip = new PerceptionManip(this.manip);
+            this.manip = new PerceptionManip(this.manip, this);
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
-        this.manip.Manipulate(this.gameObject);
+        if (this.manip != null)
+        {
+            this.manip.Manipulate(this);
+        }
+    }
+
+    public virtual void Perception(PerceptionManip.State state)
+    {
+        return;
+    }
+
+    public virtual void Gravity()
+    {
+        return;
+    }
+
+    public virtual void Size()
+    {
+        return;
     }
 }

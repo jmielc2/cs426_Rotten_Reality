@@ -2,17 +2,12 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    // Class Member Variables
-    private static GameState _instance;
-    public static GameState State
-    {
-        get => _instance;
-    }
+    public static PerceptionManip.State PerceptionState;
 
     // Class Methods
     private void Awake()
     {
-        GameState._instance = this;
+        GameState.PerceptionState = PerceptionManip.State.INVISIBLE;
     }
 
     void Start()
