@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
-    public static PerceptionManip.State PerceptionState;
+    public enum Perception { VISIBLE, INVISIBLE };
+    public static Perception PerceptionState;
 
     // Class Methods
     private void Awake()
     {
-        GameState.PerceptionState = PerceptionManip.State.INVISIBLE;
+        GameState.PerceptionState = Perception.INVISIBLE;
     }
 
     void Start()
@@ -18,5 +19,28 @@ public class GameState : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public static void TogglePerceptionState()
+    {
+        switch (GameState.PerceptionState)
+        {
+            case (Perception.INVISIBLE):
+                GameState.PerceptionState = Perception.VISIBLE;
+                break;
+            case (Perception.VISIBLE):
+                GameState.PerceptionState = Perception.INVISIBLE;
+                break;
+        }
+    }
+
+    public static void ToggleGravityState()
+    {
+
+    }
+
+    public static void ToggleSizeState()
+    {
+
     }
 }

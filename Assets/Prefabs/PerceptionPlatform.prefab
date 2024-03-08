@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4543900526686855398}
   - component: {fileID: 8248147921348814179}
   m_Layer: 0
-  m_Name: Interactable
+  m_Name: PerceptionPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

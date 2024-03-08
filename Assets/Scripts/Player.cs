@@ -10,36 +10,18 @@ public class Player : Manipulatable
     }
 
     // Start is called before the first frame update
-    public override void Start()
+    public void Start()
     {
-        base.Start(); 
+        
     }
 
     // Update is called once per frame
-    public override void Update()
+    public void Update()
     {
-        base.Update();
-        if (Input.GetButtonDown("Jump"))
+        
+        if (Input.GetButtonDown("Jump")) // Changes perception state when jump is pressed
         {
-            switch (GameState.PerceptionState)
-            {
-                case (PerceptionManip.State.INVISIBLE):
-                    GameState.PerceptionState = PerceptionManip.State.VISIBLE;
-                    break;
-                case (PerceptionManip.State.VISIBLE):
-                    GameState.PerceptionState = PerceptionManip.State.INVISIBLE;
-                    break;
-            }
+            GameState.TogglePerceptionState();
         }
-    }
-
-    public override void Gravity()
-    {
-        Debug.Log("Gravity");
-    }
-
-    public override void Size()
-    {
-        Debug.Log("Size");
     }
 }
