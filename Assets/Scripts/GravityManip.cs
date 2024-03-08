@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Size : Manipulation 
+public class GravityManip : Manipulation
 {
-    public Size(Manipulation nested) : base(nested)
+    public GravityManip(Manipulation nested = null) : base(nested)
     {
 
     }
@@ -16,7 +16,7 @@ public class Size : Manipulation
             this.nested.Manipulate(obj);
         }
 
-        // Implement Size Manip Here
+        // Implement Gravity Manip Here
 
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Perception : Manipulation 
+public class SizeManip : Manipulation 
 {
-    public Perception(Manipulation nested = null) : base(nested)
+    public SizeManip(Manipulation nested) : base(nested)
     {
 
     }
@@ -14,9 +14,9 @@ public class Perception : Manipulation
         if (this.nested != null)
         {
             this.nested.Manipulate(obj);
-        }   
+        }
 
-        // Implement Perception Manip Here
+        // Implement Size Manip Here
 
     }
 }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gravity : Manipulation
+public class PerceptionManip : Manipulation 
 {
-    public Gravity(Manipulation nested = null) : base(nested)
+    public PerceptionManip(Manipulation nested = null) : base(nested)
     {
 
     }
@@ -14,9 +14,9 @@ public class Gravity : Manipulation
         if (this.nested != null)
         {
             this.nested.Manipulate(obj);
-        }
+        }   
 
-        // Implement Gravity Manip Here
+        // Implement Perception Manip Here
 
     }
 }
