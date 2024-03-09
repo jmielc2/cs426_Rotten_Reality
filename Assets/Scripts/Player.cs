@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    
+    protected Ability selectedAbility;
+
     // Start is called before the first frame update
     public void Start()
     {
-        
+        this.selectedAbility = Ability.GRAVITY;
     }
 
     // Update is called once per frame
     public void Update()
     {       
-        if (Input.GetButtonDown("Jump")) // Changes perception state when jump is pressed
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            GameState.TogglePerceptionState();
+            this.selectedAbility = GameState.GetNextAbility(this.selectedAbility);
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GameState.ToggleAbility(this.selectedAbility);
         }
     }
 }
