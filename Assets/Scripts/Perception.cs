@@ -9,10 +9,12 @@ public class Perception : MonoBehaviour
 
     public enum States { VISIBLE, INVISIBLE };
     protected Perception.States state;
+    public MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
     public void Start()
     {
+        this.meshRenderer = this.transform.Find("Model").GetComponent<MeshRenderer>();
         this.UpdatePerception();
     }
 
@@ -28,14 +30,13 @@ public class Perception : MonoBehaviour
     protected void UpdatePerception()
     {
         this.state = GameState.perceptionState;
-        MeshRenderer renderer = this.gameObject.transform.Find("Model").GetComponent<MeshRenderer>();
         switch (this.state)
         {
             case Perception.States.INVISIBLE:
-                renderer.material = invisible;
+                this.meshRenderer.material = invisible;
                 break;
             case Perception.States.VISIBLE:
-                renderer.material = visible;
+                this.meshRenderer.material = visible;
                 break;
         }
     }
