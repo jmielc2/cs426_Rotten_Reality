@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int movementSpeed = 10;
+    [SerializeField] private int movementSpeed = 8;
+    [SerializeField] private int jumpForce = 400;
 
     protected Ability selectedAbility;
-    protected Vector3 mousePositionPrev;
-    protected CharacterController controller;
+    protected new Rigidbody rigidbody;
+    protected ConstantForce gravityForce;
+    protected new CapsuleCollider collider;
     protected Transform cameraTransform;
     protected Transform modelTransform;
 
@@ -16,8 +18,9 @@ public class Player : MonoBehaviour
     public void Start()
     {
         this.selectedAbility = Ability.GRAVITY;
-        this.mousePositionPrev = Input.mousePosition;
-        this.controller = this.gameObject.GetComponent<CharacterController>();
+        this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
+        this.gravityForce = this.gameObject.GetComponent<ConstantForce>();
+        this.collider = this.gameObject.GetComponent<CapsuleCollider>();
         this.cameraTransform = this.transform.Find("Camera").transform;
         this.modelTransform = this.transform.Find("Model").transform;
     }
@@ -36,35 +39,49 @@ public class Player : MonoBehaviour
         }
 
         // Update Player Movement
-        Vector3 move = Vector3.zero;
         bool updateModelOrientation = false;
+        Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
-            move += this.modelTransform.forward;
+            move += this.movementSpeed * this.modelTransform.forward;
             updateModelOrientation = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            move += (this.modelTransform.forward * -1);
+            move += (-1 * this.movementSpeed * this.modelTransform.forward);
             updateModelOrientation = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            move += (this.modelTransform.right * -1);
+            move += (-1 * this.movementSpeed * this.modelTransform.right);
             updateModelOrientation = true;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            move += this.transform.right;
+            move += (this.movementSpeed * this.transform.right);
             updateModelOrientation = true;
         }
+        if (this.IsGrounded())
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                this.rigidbody.AddForce(this.jumpForce * this.modelTransform.up);
+            }
+        }
+
+        this.transform.position += (move * Time.deltaTime);
         if (updateModelOrientation)
         {
             this.modelTransform.rotation = Quaternion.Slerp(
                 this.modelTransform.rotation, 
                 Quaternion.Euler(0, this.cameraTransform.eulerAngles.y, 0),
-                0.25f);
+                0.3f
+            );
         }
-        this.controller.Move(this.movementSpeed * Time.deltaTime * Vector3.Normalize(move));
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height / 2);
     }
 }
