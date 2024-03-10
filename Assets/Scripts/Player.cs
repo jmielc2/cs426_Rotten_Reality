@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.D))
         {
-            move += (this.movementSpeed * this.transform.right);
+            move += (this.movementSpeed * this.modelTransform.right);
             updateModelOrientation = true;
         }
         if (this.IsGrounded())
