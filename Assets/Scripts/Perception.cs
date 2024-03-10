@@ -7,18 +7,21 @@ public class Perception : MonoBehaviour
     [SerializeField] protected Material invisible;
     [SerializeField] protected Material visible;
 
-    protected GameState.Perception state;
+    public enum States { VISIBLE, INVISIBLE };
+    protected Perception.States state;
+    public MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
     public void Start()
     {
+        this.meshRenderer = this.transform.Find("Model").GetComponent<MeshRenderer>();
         this.UpdatePerception();
     }
 
     // Update is called once per frame
     public void Update()
     {
-        if (this.state != GameState.PerceptionState)
+        if (this.state != GameState.perceptionState)
         {
             this.UpdatePerception();
         }
@@ -26,15 +29,14 @@ public class Perception : MonoBehaviour
 
     protected void UpdatePerception()
     {
-        this.state = GameState.PerceptionState;
-        MeshRenderer renderer = this.gameObject.transform.Find("Model").GetComponent<MeshRenderer>();
+        this.state = GameState.perceptionState;
         switch (this.state)
         {
-            case GameState.Perception.INVISIBLE:
-                renderer.material = invisible;
+            case Perception.States.INVISIBLE:
+                this.meshRenderer.material = invisible;
                 break;
-            case GameState.Perception.VISIBLE:
-                renderer.material = visible;
+            case Perception.States.VISIBLE:
+                this.meshRenderer.material = visible;
                 break;
         }
     }
