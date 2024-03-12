@@ -1,0 +1,10 @@
+﻿Schedule and deliverables for Rotten Reality prototype demo:
+
+
+1. Implement player control mechanics for gravity ability -- Fri by 5pm (estimate: 8 hrs)
+2. Implement player control mechanics for space ability -- Sat by 2pm (estimate: 8 hrs)
+3. Implement player control mechanics for perception ability -- Sun by 5pm (estimate: 8 hrs)
+4. Design and implement initial level layout with traversal-based puzzles -- Mon by 12pm (estimate: 12 hrs)
+5. Integrate abilities into puzzle designs, ensuring they are necessary for progression -- Mon by 5pm (estimate: 8 hrs)
+6. Implement ability loss mechanic and adjust existing puzzles accordingly -- Tue by 12pm (estimate: 8 hrs)
+7. Playtest and iterate on puzzle difficulty and player experience -- Tue by 5pm (estimate: 4 hrs)
