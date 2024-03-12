@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private int movementSpeed = 8;
-    [SerializeField] private int jumpForce = 400;
+    [SerializeField] private int movementSpeed = 5;
+    [SerializeField] private int jumpForce = 500;
 
     protected Ability selectedAbility;
     protected new Rigidbody rigidbody;
@@ -43,22 +43,22 @@ public class Player : MonoBehaviour
         Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
         {
-            move += this.movementSpeed * this.modelTransform.forward;
+            move += this.modelTransform.forward;
             updateModelOrientation = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            move += (-1 * this.movementSpeed * this.modelTransform.forward);
+            move += -1 * this.modelTransform.forward;
             updateModelOrientation = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            move += (-1 * this.movementSpeed * this.modelTransform.right);
+            move += -1 * this.modelTransform.right;
             updateModelOrientation = true;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            move += (this.movementSpeed * this.modelTransform.right);
+            move += this.modelTransform.right;
             updateModelOrientation = true;
         }
         if (this.IsGrounded())
@@ -69,19 +69,19 @@ public class Player : MonoBehaviour
             }
         }
 
-        this.transform.position += (move * Time.deltaTime);
+        this.transform.position += (this.movementSpeed * Time.deltaTime * Vector3.Normalize(move));
         if (updateModelOrientation)
         {
             this.modelTransform.rotation = Quaternion.Slerp(
                 this.modelTransform.rotation, 
                 Quaternion.Euler(0, this.cameraTransform.eulerAngles.y, 0),
-                0.3f
+                0.35f
             );
         }
     }
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height / 2);
+        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height * 0.5f);
     }
 }
