@@ -1,0 +1,3 @@
+- Player and camera controls -- Estimate 1hrs
+- Game state manager -- Estimate 2hrs
+- Perception ability -- Estimate 4hrs
