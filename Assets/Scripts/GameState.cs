@@ -2,109 +2,125 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Ability { GRAVITY, SPACE, PERCEPTION, NONE };
+public enum Ability { GRAVITY, SPACE, PERCEPTION };
 
 public class GameState : MonoBehaviour
 {
+    // Global Game State Values (determine behaviour of the game and player progress)
+    public static Ability activeAbility;
     public static Perception.States perceptionState;
+    public static Size.States sizeState;
     public static Gravity.States gravityState;
     private static List<bool> abilityStates;
+
+    // Default Values
+    protected static Perception.States DEFAULT_PERCEPTION = Perception.States.VISIBLE;
+    protected static Size.States DEFAULT_SIZE = Size.States.BIG;
+    protected static Gravity.States DEFAULT_GRAVITY = Gravity.States.DOWN;
 
     // Class Methods
     private void Awake()
     {
-        GameState.perceptionState = Perception.States.INVISIBLE;
-        GameState.gravityState = Gravity.States.DOWN;
+        GameState.activeAbility = Ability.GRAVITY;
+        GameState.perceptionState = GameState.DEFAULT_PERCEPTION;
+        GameState.sizeState = GameState.DEFAULT_SIZE;
+        GameState.gravityState = GameState.DEFAULT_GRAVITY;
         GameState.abilityStates = new List<bool> { false, false, false };
     }
 
-    public static void TogglePerceptionState()
+    protected static void TogglePerceptionState()
     {
         switch (GameState.perceptionState)
         {
-            case (Perception.States.INVISIBLE):
+            case Perception.States.INVISIBLE:
                 GameState.perceptionState = Perception.States.VISIBLE;
                 break;
-            case (Perception.States.VISIBLE):
+            case Perception.States.VISIBLE:
                 GameState.perceptionState = Perception.States.INVISIBLE;
                 break;
         }
     }
 
-    public static void ToggleGravityState()
+    protected static void ToggleGravityState()
     {
         switch (GameState.gravityState)
         {
-            case (Gravity.States.UP):
+            case Gravity.States.UP:
                 GameState.gravityState = Gravity.States.DOWN;
                 break;
-            case (Gravity.States.DOWN):
+            case Gravity.States.DOWN:
                 GameState.gravityState = Gravity.States.UP;
                 break;
         }
     }
 
-    public static void ToggleSizeState()
+    protected static void ToggleSizeState()
     {
         switch (GameState.sizeState)
         {
-            case (Size.States.SMALL):
+            case Size.States.SMALL:
                 GameState.sizeState = Size.States.BIG;
                 break;
-            case (Size.States.BIG):
+            case Size.States.BIG:
                 GameState.sizeState = Size.States.SMALL;
                 break;
         }
-
     }
-
 
     public static bool IsAbilityMended(Ability ability)
     {
-        if (ability == Ability.NONE)
-        {
-            return false;
-        }
-        return (GameState.abilityStates[(int) ability]);
+        return GameState.abilityStates[(int) ability];
     }
 
-    public static Ability GetNextAbility(Ability ability)
+    public static void SwitchAbility()
     {
-        return (Ability)(((int)ability + 1) % GameState.abilityStates.Count);
+        GameState.activeAbility = (Ability)((((int)GameState.activeAbility) + 1) % GameState.abilityStates.Count);
     }
 
     public static void UnmendAbility(Ability ability)
     {
-        if (ability == Ability.NONE)
-        {
-            return;
-        }
         GameState.abilityStates[(int)ability] = false;
     }
 
     public static void MendAbility(Ability ability)
     {
-        if (ability == Ability.NONE)
+        switch (ability)
         {
-            return;
+            case Ability.GRAVITY:
+                if (GameState.gravityState != GameState.DEFAULT_GRAVITY)
+                {
+                    GameState.ToggleGravityState();
+                }
+                break;
+            case Ability.PERCEPTION:
+                if (GameState.perceptionState != GameState.DEFAULT_PERCEPTION)
+                {
+                    GameState.TogglePerceptionState();
+                }
+                break;
+            case Ability.SPACE:
+                if (GameState.sizeState != GameState.DEFAULT_SIZE)
+                {
+                    GameState.ToggleSizeState();
+                }
+                break;
         }
         GameState.abilityStates[(int)ability] = true;
     }
 
-    public static void ToggleAbility(Ability ability)
+    public static void ToggleAbility()
     {
-        if (GameState.IsAbilityMended(ability))
+        if (GameState.IsAbilityMended(GameState.activeAbility))
         {
             return;
         }
-        switch (ability)
+        switch (GameState.activeAbility)
         {
             case Ability.GRAVITY:
                 GameState.ToggleGravityState();
                 break;
             case Ability.SPACE:
                 GameState.ToggleSizeState();
-                Debug.Log("Size Toggled");
                 break;
             case Ability.PERCEPTION:
                 GameState.TogglePerceptionState();
