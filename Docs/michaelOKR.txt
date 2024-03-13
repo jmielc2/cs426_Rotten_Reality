@@ -1,0 +1,4 @@
+1. Implement player control mechanics for perception ability
+2. Figure out level design and refine perception controls
+3. Iron out bugs and determine order for gameplay
+4. Get feedback and redesign mechanics if necessary

@@ -17,6 +17,7 @@ public class Player : Gravity
     // Start is called before the first frame update
     public override void Start()
     {
+
         base.Start();
         this.selectedAbility = Ability.GRAVITY;
         this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
@@ -83,8 +84,19 @@ public class Player : Gravity
         }
     }
 
+    public int GetAdjustedJumpForce()
+    {
+        return jumpForce;
+    }
+    public void SetJumpForce(int newJumpForce)
+    {
+        jumpForce = newJumpForce;
+    }
+
+
     private bool IsGrounded()
     {
-        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height * 0.5f);
+        Debug.LogFormat("{0}", this.collider.height);
+        return Physics.Raycast(this.transform.position, this.transform.up * -1, this.collider.height * 0.6f);
     }
 }

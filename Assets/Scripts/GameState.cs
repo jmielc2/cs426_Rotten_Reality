@@ -46,6 +46,15 @@ public class GameState : MonoBehaviour
 
     public static void ToggleSizeState()
     {
+        switch (GameState.sizeState)
+        {
+            case (Size.States.SMALL):
+                GameState.sizeState = Size.States.BIG;
+                break;
+            case (Size.States.BIG):
+                GameState.sizeState = Size.States.SMALL;
+                break;
+        }
 
     }
 
@@ -94,6 +103,8 @@ public class GameState : MonoBehaviour
                 GameState.ToggleGravityState();
                 break;
             case Ability.SPACE:
+                GameState.ToggleSizeState();
+                Debug.Log("Size Toggled");
                 break;
             case Ability.PERCEPTION:
                 GameState.TogglePerceptionState();
