@@ -8,8 +8,8 @@ public class Perception : MonoBehaviour
     [SerializeField] protected Material visible;
 
     public enum States { VISIBLE, INVISIBLE };
-    protected Perception.States state;
-    public MeshRenderer meshRenderer;
+    protected States state;
+    protected MeshRenderer meshRenderer;
 
     // Start is called before the first frame update
     public void Start()

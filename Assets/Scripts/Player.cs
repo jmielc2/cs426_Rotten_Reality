@@ -2,47 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Gravity 
+public class Player : MonoBehaviour
 {
-    [SerializeField] private int movementSpeed = 5;
+    [SerializeField,Range(5f, 15f)] private int movementSpeed = 15;
     [SerializeField] private int jumpForce = 500;
 
-    protected Ability selectedAbility;
     protected new Rigidbody rigidbody;
     protected ConstantForce gravityForce;
     protected new CapsuleCollider collider;
     protected Transform cameraTransform;
     protected Transform modelTransform;
+    protected ThirdPersonCamera cameraController;
 
-    // Start is called before the first frame update
-    public override void Start()
+    void Start()
     {
-
-        base.Start();
-        this.selectedAbility = Ability.GRAVITY;
         this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
         this.gravityForce = this.gameObject.GetComponent<ConstantForce>();
         this.collider = this.gameObject.GetComponent<CapsuleCollider>();
         this.cameraTransform = this.transform.Find("Camera").transform;
         this.modelTransform = this.transform.Find("Model").transform;
+        this.cameraController = this.cameraTransform.gameObject.GetComponent<ThirdPersonCamera>();
     }
 
-    // Update is called once per frame
-    public override void Update()
+    void Update()
     {
-        base.Update();
-
-        // Update Abilities
+        // Process Player Ability Input
         if (Input.GetKeyDown(KeyCode.R))
         {
-            this.selectedAbility = GameState.GetNextAbility(this.selectedAbility);
+            GameState.SwitchAbility();
         }
         if (Input.GetKeyDown(KeyCode.E))
         {
-            GameState.ToggleAbility(this.selectedAbility);
+            GameState.ToggleAbility();
+            if (GameState.activeAbility == Ability.GRAVITY)
+            {
+                this.cameraController.Reorient();
+                this.modelTransform.RotateAround(this.modelTransform.position, this.modelTransform.forward, 180f);
+            }
         }
 
-        // Update Player Movement
+        // Process Player Movement Input
         bool updateModelOrientation = false;
         Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
@@ -73,30 +72,20 @@ public class Player : Gravity
             }
         }
 
+        // Update Player Position and Model Orientation
         this.transform.position += (this.movementSpeed * Time.deltaTime * Vector3.Normalize(move));
         if (updateModelOrientation)
         {
             this.modelTransform.rotation = Quaternion.Slerp(
                 this.modelTransform.rotation, 
-                Quaternion.Euler(0, this.cameraTransform.eulerAngles.y, 0),
+                Quaternion.Euler(0, this.cameraTransform.eulerAngles.y, this.modelTransform.eulerAngles.z),
                 0.35f
             );
         }
     }
 
-    public int GetAdjustedJumpForce()
-    {
-        return jumpForce;
-    }
-    public void SetJumpForce(int newJumpForce)
-    {
-        jumpForce = newJumpForce;
-    }
-
-
     private bool IsGrounded()
     {
-        Debug.LogFormat("{0}", this.collider.height);
-        return Physics.Raycast(this.transform.position, this.transform.up * -1, this.collider.height * 0.6f);
+        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height * 0.5f);
     }
 }
