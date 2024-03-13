@@ -7,12 +7,14 @@ public enum Ability { GRAVITY, SPACE, PERCEPTION, NONE };
 public class GameState : MonoBehaviour
 {
     public static Perception.States perceptionState;
+    public static Gravity.States gravityState;
     private static List<bool> abilityStates;
 
     // Class Methods
     private void Awake()
     {
         GameState.perceptionState = Perception.States.INVISIBLE;
+        GameState.gravityState = Gravity.States.DOWN;
         GameState.abilityStates = new List<bool> { false, false, false };
     }
 
@@ -31,7 +33,15 @@ public class GameState : MonoBehaviour
 
     public static void ToggleGravityState()
     {
-
+        switch (GameState.gravityState)
+        {
+            case (Gravity.States.UP):
+                GameState.gravityState = Gravity.States.DOWN;
+                break;
+            case (Gravity.States.DOWN):
+                GameState.gravityState = Gravity.States.UP;
+                break;
+        }
     }
 
     public static void ToggleSizeState()
@@ -81,6 +91,7 @@ public class GameState : MonoBehaviour
         switch (ability)
         {
             case Ability.GRAVITY:
+                GameState.ToggleGravityState();
                 break;
             case Ability.SPACE:
                 break;

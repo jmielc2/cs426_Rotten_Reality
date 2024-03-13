@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Gravity 
 {
     [SerializeField] private int movementSpeed = 5;
     [SerializeField] private int jumpForce = 500;
@@ -15,8 +15,9 @@ public class Player : MonoBehaviour
     protected Transform modelTransform;
 
     // Start is called before the first frame update
-    public void Start()
+    public override void Start()
     {
+        base.Start();
         this.selectedAbility = Ability.GRAVITY;
         this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
         this.gravityForce = this.gameObject.GetComponent<ConstantForce>();
@@ -26,8 +27,10 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update()
+    public override void Update()
     {
+        base.Update();
+
         // Update Abilities
         if (Input.GetKeyDown(KeyCode.R))
         {
