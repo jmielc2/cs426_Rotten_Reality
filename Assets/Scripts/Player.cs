@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        this.selectedAbility = Ability.GRAVITY;
+        this.selectedAbility = Ability.SPACE;
         this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
         this.gravityForce = this.gameObject.GetComponent<ConstantForce>();
         this.collider = this.gameObject.GetComponent<CapsuleCollider>();
@@ -80,8 +80,19 @@ public class Player : MonoBehaviour
         }
     }
 
+    public int GetAdjustedJumpForce()
+    {
+        return jumpForce;
+    }
+    public void SetJumpForce(int newJumpForce)
+    {
+        jumpForce = newJumpForce;
+    }
+
+
     private bool IsGrounded()
     {
-        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height * 0.5f);
+        Debug.LogFormat("{0}", this.collider.height);
+        return Physics.Raycast(this.transform.position, this.transform.up * -1, this.collider.height * 0.6f);
     }
 }
