@@ -11,6 +11,7 @@ public class GameState : MonoBehaviour
     public static Perception.States perceptionState;
     public static Size.States sizeState;
     public static Gravity.States gravityState;
+    public static Size.States sizeState;
     private static List<bool> abilityStates;
 
     // Default Values
