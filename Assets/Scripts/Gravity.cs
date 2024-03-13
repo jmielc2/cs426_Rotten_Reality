@@ -5,6 +5,7 @@ public class Gravity : MonoBehaviour
     public enum States { DOWN, UP };
     protected States state;
     protected new ConstantForce constantForce;
+    protected static float FORCE = 20f;
 
     void Start()
     {
@@ -23,11 +24,11 @@ public class Gravity : MonoBehaviour
         Vector3 newForce = this.constantForce.force;
         switch (this.state) {
             case Gravity.States.DOWN:
-                newForce.y = -20;
+                newForce.y = -1 * Gravity.FORCE;
                 this.constantForce.force = newForce;
                 break;
             case Gravity.States.UP:
-                newForce.y = 20;
+                newForce.y = Gravity.FORCE;
                 this.constantForce.force = newForce;
                 break;
         }
