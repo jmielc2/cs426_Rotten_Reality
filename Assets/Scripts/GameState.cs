@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Ability { GRAVITY, SPACE, PERCEPTION };
+public enum Ability { GRAVITY, SIZE, PERCEPTION };
 
 public class GameState : MonoBehaviour
 {
@@ -30,6 +30,9 @@ public class GameState : MonoBehaviour
 
     protected static void TogglePerceptionState()
     {
+        if (GameState.IsAbilityMended(Ability.PERCEPTION)) {
+            return;
+        }
         switch (GameState.perceptionState)
         {
             case Perception.States.INVISIBLE:
@@ -43,6 +46,9 @@ public class GameState : MonoBehaviour
 
     protected static void ToggleGravityState()
     {
+        if (GameState.IsAbilityMended(Ability.GRAVITY)) {
+            return;
+        }
         switch (GameState.gravityState)
         {
             case Gravity.States.UP:
@@ -56,6 +62,9 @@ public class GameState : MonoBehaviour
 
     protected static void ToggleSizeState()
     {
+        if (GameState.IsAbilityMended(Ability.SIZE)) {
+            return;
+        }
         switch (GameState.sizeState)
         {
             case Size.States.SMALL:
@@ -98,7 +107,7 @@ public class GameState : MonoBehaviour
                     GameState.TogglePerceptionState();
                 }
                 break;
-            case Ability.SPACE:
+            case Ability.SIZE:
                 if (GameState.sizeState != GameState.DEFAULT_SIZE)
                 {
                     GameState.ToggleSizeState();
@@ -119,7 +128,7 @@ public class GameState : MonoBehaviour
             case Ability.GRAVITY:
                 GameState.ToggleGravityState();
                 break;
-            case Ability.SPACE:
+            case Ability.SIZE:
                 GameState.ToggleSizeState();
                 break;
             case Ability.PERCEPTION:

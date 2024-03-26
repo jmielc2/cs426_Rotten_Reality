@@ -7,9 +7,9 @@ public class Player : MonoBehaviour
     [SerializeField,Range(5f, 15f)] private int movementSpeed = 15;
     [SerializeField] private int jumpForce = 500;
 
-    protected new Rigidbody rigidbody;
+    protected Rigidbody rigidbody;
     protected ConstantForce gravityForce;
-    protected new CapsuleCollider collider;
+    protected CapsuleCollider collider;
     protected Transform cameraTransform;
     protected Transform modelTransform;
     protected ThirdPersonCamera cameraController;
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        // Process Player Movement Input
+        // Process Player Input
         bool updateModelOrientation = false;
         Vector3 move = Vector3.zero;
         if (Input.GetKey(KeyCode.W))
@@ -69,6 +69,21 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 this.rigidbody.AddForce(this.jumpForce * this.modelTransform.up);
+            }
+        }
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Collider[] colliders = Physics.OverlapSphere(this.modelTransform.position, 5f, 1 << LayerMask.NameToLayer("Interactables"));
+            foreach (Collider collider in colliders) {
+                if (collider.tag == "Terminal") {
+                    Vector3 dirToTerminal = Vector3.Normalize(collider.transform.position - this.modelTransform.position);
+                    Vector3 dirCamera = this.cameraTransform.forward;
+                    dirToTerminal.y = dirCamera.y = 0f;
+                    if (Vector3.Dot(dirToTerminal, dirCamera) >= Mathf.Cos(0.25f * Mathf.PI)) {
+                        collider.gameObject.GetComponent<Terminal>().TriggerTerminal();
+                        break;
+                    }
+                }
             }
         }
 
