@@ -7,9 +7,9 @@ public class Player : MonoBehaviour
     [SerializeField,Range(5f, 15f)] private int movementSpeed = 15;
     [SerializeField] private int jumpForce = 500;
 
-    protected new Rigidbody rigidbody;
+    protected Rigidbody rigidbody;
     protected ConstantForce gravityForce;
-    protected new CapsuleCollider collider;
+    protected CapsuleCollider collider;
     protected Transform cameraTransform;
     protected Transform modelTransform;
     protected ThirdPersonCamera cameraController;

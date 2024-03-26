@@ -4,7 +4,7 @@ public class Gravity : MonoBehaviour
 {
     public enum States { DOWN, UP };
     protected States state;
-    protected new ConstantForce constantForce;
+    protected ConstantForce constantForce;
     protected static float FORCE = 20f;
 
     void Start()
