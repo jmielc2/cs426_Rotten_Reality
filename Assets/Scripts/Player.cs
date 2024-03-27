@@ -91,14 +91,8 @@ public class Player : MonoBehaviour
             {
                 if (collider.CompareTag("Terminal"))
                 {
-                    Vector3 dirToTerminal = Vector3.Normalize(collider.transform.position - this.modelTransform.position);
-                    Vector3 dirCamera = this.cameraTransform.forward;
-                    dirToTerminal.y = dirCamera.y = 0f;
-                    if (Vector3.Dot(dirToTerminal, dirCamera) >= Mathf.Cos(0.25f * Mathf.PI))
-                    {
-                        collider.gameObject.GetComponent<Terminal>().TriggerTerminal();
-                        break;
-                    }
+                    collider.gameObject.GetComponent<Terminal>().TriggerTerminal();
+                    break;
                 }
             }
         }
@@ -121,7 +115,6 @@ public class Player : MonoBehaviour
         {
             this.animator.SetInteger("Animation", (int)AnimStates.IDLE);
         }
-        Debug.Log(this.animator.GetInteger("Animation"));
     }
 
     private bool IsGrounded()
