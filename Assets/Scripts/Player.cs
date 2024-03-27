@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
         {
             if (!animationSet)
             {
-                animator.SetInteger("Animation", (int)AnimStates.RUN);
+                this.animator.SetInteger("Animation", (int)AnimStates.RUN);
             }
             this.modelTransform.rotation = Quaternion.Slerp(
                 this.modelTransform.rotation,
@@ -119,8 +119,9 @@ public class Player : MonoBehaviour
         }
         else if (!animationSet)
         {
-            animator.SetInteger("Animation", (int)AnimStates.IDLE);
+            this.animator.SetInteger("Animation", (int)AnimStates.IDLE);
         }
+        Debug.Log(this.animator.GetInteger("Animation"));
     }
 
     private bool IsGrounded()
