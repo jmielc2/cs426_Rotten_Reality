@@ -18,3 +18,4 @@ As players progress through the game by solving puzzles using the aforementioned
 - `Space Bar` to jump.
 
 ## External References & Resources
+Astronaut Asset - https://assetstore.unity.com/packages/3d/characters/humanoids/sci-fi/stylized-astronaut-114298
