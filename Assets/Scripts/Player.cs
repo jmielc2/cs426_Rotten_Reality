@@ -119,6 +119,6 @@ public class Player : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, this.collider.height * 0.5f);
+        return Physics.Raycast(this.modelTransform.position, this.modelTransform.up * -1, 1.2f * this.collider.height * 0.5f);
     }
 }
